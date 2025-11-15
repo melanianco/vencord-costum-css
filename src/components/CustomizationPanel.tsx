@@ -12,6 +12,7 @@ interface CustomizationPanelProps {
   selector: string;
   onSave: (properties: CSSProperty[]) => void;
   onClose: () => void;
+  initialTab?: string;
 }
 
 // Helper function to convert rgb/rgba to hex
@@ -25,7 +26,7 @@ const rgbToHex = (rgb: string): string => {
   }).join('');
 };
 
-export const CustomizationPanel = ({ element, selector, onSave, onClose }: CustomizationPanelProps) => {
+export const CustomizationPanel = ({ element, selector, onSave, onClose, initialTab = 'colors' }: CustomizationPanelProps) => {
   // Initialize state with actual computed styles
   const getComputedStyles = () => {
     if (!element) return {
@@ -160,7 +161,7 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
           )}
         </div>
 
-        <Tabs defaultValue="colors" className="w-full">
+        <Tabs defaultValue={initialTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4 bg-discord-secondary">
             <TabsTrigger value="colors">Colors</TabsTrigger>
             <TabsTrigger value="typography">Text</TabsTrigger>

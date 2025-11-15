@@ -15,6 +15,7 @@ const Index = () => {
   const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(null);
   const [selectedSelector, setSelectedSelector] = useState<string>("");
   const [showCustomizationPanel, setShowCustomizationPanel] = useState(false);
+  const [customizationTab, setCustomizationTab] = useState<string>('colors');
   const [cssProperties, setCssProperties] = useState<CSSProperty[]>([]);
   const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(null);
   const [showCSSEditor, setShowCSSEditor] = useState(false);
@@ -93,7 +94,8 @@ const Index = () => {
     setContextMenu(null);
   };
 
-  const handleCustomize = () => {
+  const handleCustomize = (tab: string = 'colors') => {
+    setCustomizationTab(tab);
     setShowCustomizationPanel(true);
     toast.info("Customize the selected element in the panel");
   };
@@ -191,6 +193,7 @@ const Index = () => {
           selector={selectedSelector}
           onSave={handleSaveCustomization}
           onClose={() => setShowCustomizationPanel(false)}
+          initialTab={customizationTab}
         />
       )}
 

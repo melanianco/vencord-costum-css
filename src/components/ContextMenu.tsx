@@ -6,10 +6,15 @@ interface ContextMenuProps {
   x: number;
   y: number;
   onClose: () => void;
-  onCustomize: () => void;
+  onCustomize: (tab?: string) => void;
 }
 
 export const ContextMenu = ({ x, y, onClose, onCustomize }: ContextMenuProps) => {
+  const handleOption = (tab?: string) => {
+    onCustomize(tab);
+    onClose();
+  };
+
   return (
     <>
       <div
@@ -24,10 +29,7 @@ export const ContextMenu = ({ x, y, onClose, onCustomize }: ContextMenuProps) =>
           <Button
             variant="ghost"
             className="w-full justify-start gap-2 hover:bg-discord-secondary"
-            onClick={() => {
-              onCustomize();
-              onClose();
-            }}
+            onClick={() => handleOption('colors')}
           >
             <Edit className="w-4 h-4" />
             Customize Element
@@ -35,7 +37,7 @@ export const ContextMenu = ({ x, y, onClose, onCustomize }: ContextMenuProps) =>
           <Button
             variant="ghost"
             className="w-full justify-start gap-2 hover:bg-discord-secondary"
-            onClick={onClose}
+            onClick={() => handleOption('colors')}
           >
             <Palette className="w-4 h-4" />
             Change Colors
@@ -43,7 +45,7 @@ export const ContextMenu = ({ x, y, onClose, onCustomize }: ContextMenuProps) =>
           <Button
             variant="ghost"
             className="w-full justify-start gap-2 hover:bg-discord-secondary"
-            onClick={onClose}
+            onClick={() => handleOption('typography')}
           >
             <Type className="w-4 h-4" />
             Edit Typography
@@ -51,10 +53,10 @@ export const ContextMenu = ({ x, y, onClose, onCustomize }: ContextMenuProps) =>
           <Button
             variant="ghost"
             className="w-full justify-start gap-2 hover:bg-discord-secondary"
-            onClick={onClose}
+            onClick={() => handleOption('spacing')}
           >
             <Box className="w-4 h-4" />
-            Modify Layout
+            Modify Spacing
           </Button>
         </div>
       </Card>
