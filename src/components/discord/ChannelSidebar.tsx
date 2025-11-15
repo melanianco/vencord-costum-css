@@ -2,7 +2,7 @@ import { ChevronDown, Hash, Volume2, Settings, Plus } from "lucide-react";
 
 export const ChannelSidebar = () => {
   return (
-    <div className="w-60 bg-[#2b2d31] flex flex-col">
+    <div className="w-60 bg-[#2b2d31] flex flex-col" style={{ fontFamily: 'gg sans, "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       {/* Server Name */}
       <div className="h-12 px-4 flex items-center justify-between border-b border-[#1e1f22] hover:bg-[#35363c] cursor-pointer">
         <span className="text-white font-semibold">Direct Messages</span>

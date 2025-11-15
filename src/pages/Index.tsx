@@ -99,11 +99,16 @@ const Index = () => {
   };
 
   const handleSaveCustomization = (properties: CSSProperty[]) => {
-    setCssProperties(prev => [...prev, ...properties]);
+    // Update CSS properties state
+    setCssProperties(prev => {
+      // Remove old properties for the same selector
+      const filtered = prev.filter(p => p.selector !== selectedSelector);
+      return [...filtered, ...properties];
+    });
     
     // Apply styles with !important by injecting a style tag
     if (selectedElement && properties.length > 0) {
-      const styleId = `custom-style-${Date.now()}`;
+      const styleId = 'custom-discord-styles';
       let styleTag = document.getElementById(styleId) as HTMLStyleElement;
       
       if (!styleTag) {
@@ -112,19 +117,33 @@ const Index = () => {
         document.head.appendChild(styleTag);
       }
       
-      const cssRules = properties.map(prop => 
-        `  ${prop.property}: ${prop.value} !important;`
-      ).join('\n');
+      // Rebuild all styles
+      const allProps = [...cssProperties.filter(p => p.selector !== selectedSelector), ...properties];
+      const stylesBySelector = new Map<string, string[]>();
       
-      const cssText = `${selectedSelector} {\n${cssRules}\n}`;
-      styleTag.textContent += '\n' + cssText;
+      allProps.forEach(prop => {
+        const existing = stylesBySelector.get(prop.selector) || [];
+        existing.push(`  ${prop.property}: ${prop.value} !important;`);
+        stylesBySelector.set(prop.selector, existing);
+      });
+      
+      let cssText = '';
+      stylesBySelector.forEach((styles, selector) => {
+        cssText += `${selector} {\n${styles.join('\n')}\n}\n\n`;
+      });
+      
+      styleTag.textContent = cssText;
     }
     
     setShowCustomizationPanel(false);
-    toast.success("Styles applied! Check the CSS panel for the code.");
+    toast.success("Styles applied! Open CSS panel to export your code.");
   };
 
   const generateCSSCode = (): string => {
+    if (cssProperties.length === 0) {
+      return '';
+    }
+
     const stylesBySelector = new Map<string, string[]>();
 
     cssProperties.forEach(prop => {
@@ -133,14 +152,13 @@ const Index = () => {
       stylesBySelector.set(prop.selector, existing);
     });
 
-    let cssCode = '/* Vencord Quick CSS - Custom Discord Theme */\n';
-    cssCode += '/* Generated with Vencord CSS Editor */\n\n';
+    let cssCode = '/**\n * Vencord Quick CSS - Custom Discord Theme\n * Generated with Vencord CSS Editor\n * \n * Instructions:\n * 1. Copy this CSS code\n * 2. Open Discord with Vencord\n * 3. Go to Settings → Vencord → Themes → Quick CSS\n * 4. Paste this code\n * 5. Enjoy your custom theme!\n */\n\n';
     
     stylesBySelector.forEach((styles, selector) => {
       cssCode += `${selector} {\n${styles.join('\n')}\n}\n\n`;
     });
 
-    return cssCode;
+    return cssCode.trim();
   };
 
   return (
