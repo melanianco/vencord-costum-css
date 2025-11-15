@@ -101,12 +101,23 @@ const Index = () => {
   const handleSaveCustomization = (properties: CSSProperty[]) => {
     setCssProperties(prev => [...prev, ...properties]);
     
-    // Apply styles directly to the selected element
-    if (selectedElement) {
-      properties.forEach(prop => {
-        const cssProperty = prop.property.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-        (selectedElement.style as any)[cssProperty] = prop.value;
-      });
+    // Apply styles with !important by injecting a style tag
+    if (selectedElement && properties.length > 0) {
+      const styleId = `custom-style-${Date.now()}`;
+      let styleTag = document.getElementById(styleId) as HTMLStyleElement;
+      
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = styleId;
+        document.head.appendChild(styleTag);
+      }
+      
+      const cssRules = properties.map(prop => 
+        `  ${prop.property}: ${prop.value} !important;`
+      ).join('\n');
+      
+      const cssText = `${selectedSelector} {\n${cssRules}\n}`;
+      styleTag.textContent += '\n' + cssText;
     }
     
     setShowCustomizationPanel(false);

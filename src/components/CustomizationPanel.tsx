@@ -19,6 +19,7 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
     background: '',
     color: '',
     borderColor: '',
+    opacity: '1',
   });
 
   const [typography, setTypography] = useState({
@@ -44,7 +45,7 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
 
     // Add color properties
     Object.entries(colors).forEach(([key, value]) => {
-      if (value) {
+      if (value && key !== 'opacity') {
         properties.push({
           property: key === 'background' ? 'background-color' : key === 'color' ? 'color' : 'border-color',
           value,
@@ -52,6 +53,15 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
         });
       }
     });
+
+    // Add opacity if set
+    if (colors.opacity && colors.opacity !== '1') {
+      properties.push({
+        property: 'opacity',
+        value: colors.opacity,
+        selector,
+      });
+    }
 
     // Add typography properties
     Object.entries(typography).forEach(([key, value]) => {
@@ -115,6 +125,31 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
           </TabsList>
 
           <TabsContent value="colors" className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="opacity">Opacity / Transparency</Label>
+              <div className="flex gap-2 items-center">
+                <Input
+                  id="opacity"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={colors.opacity}
+                  onChange={(e) => setColors({ ...colors, opacity: e.target.value })}
+                  className="flex-1"
+                />
+                <Input
+                  type="number"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={colors.opacity}
+                  onChange={(e) => setColors({ ...colors, opacity: e.target.value })}
+                  className="w-20"
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="background">Background Color</Label>
               <div className="flex gap-2">
