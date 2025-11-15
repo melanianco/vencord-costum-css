@@ -14,31 +14,67 @@ interface CustomizationPanelProps {
   onClose: () => void;
 }
 
+// Helper function to convert rgb/rgba to hex
+const rgbToHex = (rgb: string): string => {
+  const result = rgb.match(/\d+/g);
+  if (!result) return '#000000';
+  const [r, g, b] = result.map(Number);
+  return '#' + [r, g, b].map(x => {
+    const hex = x.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  }).join('');
+};
+
 export const CustomizationPanel = ({ element, selector, onSave, onClose }: CustomizationPanelProps) => {
-  const [colors, setColors] = useState({
-    background: '',
-    color: '',
-    borderColor: '',
-    opacity: '1',
-  });
+  // Initialize state with actual computed styles
+  const getComputedStyles = () => {
+    if (!element) return {
+      colors: { background: '#000000', color: '#ffffff', borderColor: '#000000', opacity: '1' },
+      typography: { fontSize: '', fontWeight: '', fontFamily: '', lineHeight: '' },
+      spacing: { padding: '', margin: '' },
+      borders: { borderWidth: '', borderRadius: '', borderStyle: 'solid' }
+    };
 
-  const [typography, setTypography] = useState({
-    fontSize: '',
-    fontWeight: '',
-    fontFamily: '',
-    lineHeight: '',
-  });
+    const computed = window.getComputedStyle(element);
+    
+    return {
+      colors: {
+        background: computed.backgroundColor.startsWith('rgb') 
+          ? rgbToHex(computed.backgroundColor) 
+          : computed.backgroundColor || '#000000',
+        color: computed.color.startsWith('rgb') 
+          ? rgbToHex(computed.color) 
+          : computed.color || '#ffffff',
+        borderColor: computed.borderColor.startsWith('rgb') 
+          ? rgbToHex(computed.borderColor) 
+          : computed.borderColor || '#000000',
+        opacity: computed.opacity || '1',
+      },
+      typography: {
+        fontSize: computed.fontSize || '',
+        fontWeight: computed.fontWeight || '',
+        fontFamily: computed.fontFamily || '',
+        lineHeight: computed.lineHeight || '',
+      },
+      spacing: {
+        padding: computed.padding || '',
+        margin: computed.margin || '',
+      },
+      borders: {
+        borderWidth: computed.borderWidth || '',
+        borderRadius: computed.borderRadius || '',
+        borderStyle: computed.borderStyle || 'solid',
+      }
+    };
+  };
 
-  const [spacing, setSpacing] = useState({
-    padding: '',
-    margin: '',
-  });
+  const initialStyles = getComputedStyles();
+  
+  const [colors, setColors] = useState(initialStyles.colors);
 
-  const [borders, setBorders] = useState({
-    borderWidth: '',
-    borderRadius: '',
-    borderStyle: 'solid',
-  });
+  const [typography, setTypography] = useState(initialStyles.typography);
+  const [spacing, setSpacing] = useState(initialStyles.spacing);
+  const [borders, setBorders] = useState(initialStyles.borders);
 
   const handleSave = () => {
     const properties: CSSProperty[] = [];
@@ -114,6 +150,14 @@ export const CustomizationPanel = ({ element, selector, onSave, onClose }: Custo
         <div className="mb-4 p-3 bg-discord-secondary rounded-md">
           <p className="text-xs text-muted-foreground mb-1">Selected Element</p>
           <code className="text-sm text-primary break-all">{selector}</code>
+          {element && (
+            <p className="text-xs text-muted-foreground mt-2">
+              {element.tagName.toLowerCase()}
+              {element.textContent && element.textContent.length < 30 && (
+                <span className="ml-1">- "{element.textContent.trim()}"</span>
+              )}
+            </p>
+          )}
         </div>
 
         <Tabs defaultValue="colors" className="w-full">
