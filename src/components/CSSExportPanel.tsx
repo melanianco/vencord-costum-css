@@ -55,8 +55,8 @@ export const CSSExportPanel = ({ cssCode }: CSSExportPanelProps) => {
       </div>
 
       <div className="flex-1 overflow-auto p-4">
-        <pre className="text-sm text-foreground bg-discord-tertiary p-4 rounded-md overflow-x-auto">
-          <code>{cssCode || '/* No customizations yet. Right-click elements to start editing! */'}</code>
+        <pre className="text-sm text-foreground bg-discord-tertiary p-4 rounded-md overflow-x-auto font-mono">
+          <code className="whitespace-pre">{cssCode || '/* No customizations yet. Right-click any element to start customizing!\n * \n * How to use:\n * 1. Right-click on any Discord element\n * 2. Select "Customize Element"\n * 3. Edit colors, text, spacing, or borders\n * 4. Click "Apply Changes"\n * 5. Export your CSS using the buttons above!\n */'}</code>
         </pre>
       </div>
     </Card>

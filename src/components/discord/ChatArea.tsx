@@ -2,16 +2,16 @@ import { Hash, Bell, Pin, Users, Search, Inbox, HelpCircle, Mic, Video, PhoneCal
 
 export const ChatArea = () => {
   const messages = [
-    { user: "mel", avatar: "from-purple-500 to-blue-600", time: "11:19 PM", content: "Hello", status: "online" },
-    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "11:19 PM", content: "hello", status: "online" },
-    { user: "mel", avatar: "from-purple-500 to-blue-600", time: "11:19 PM", content: "how are you guys", status: "online" },
-    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "11:19 PM", content: "good", status: "online" },
-    { user: "ツ R Y U Z E N あ", avatar: "from-yellow-500 to-orange-600", time: "11:19 PM", content: "What's up", status: "idle", badge: "🎭 TYBW" },
-    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "11:19 PM", content: "hiiiii", status: "online" },
+    { user: "mel", avatar: "from-purple-500 to-blue-600", time: "Today at 11:19 PM", content: "Hello", status: "online" },
+    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "Today at 11:19 PM", content: "hello", status: "online" },
+    { user: "mel", avatar: "from-purple-500 to-blue-600", time: "Today at 11:19 PM", content: "how are you guys", status: "online" },
+    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "Today at 11:19 PM", content: "good", status: "online" },
+    { user: "ツ R Y U Z E N あ", avatar: "from-yellow-500 to-orange-600", time: "Today at 11:19 PM", content: "What's up", status: "idle", badge: "🎭 TYBW" },
+    { user: "amit ❤️WILL", avatar: "from-pink-500 to-red-600", time: "Today at 11:19 PM", content: "hiiiii", status: "online" },
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-[#313338]">
+    <div className="flex-1 flex flex-col bg-[#313338]" style={{ fontFamily: 'gg sans, "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       {/* Top Bar */}
       <div className="h-12 px-4 flex items-center justify-between border-b border-[#26272b] bg-[#313338]">
         <div className="flex items-center gap-2">

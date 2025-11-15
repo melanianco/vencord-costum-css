@@ -1,6 +1,6 @@
 export const ServerSidebar = () => {
   return (
-    <div className="w-[72px] bg-[#1e1f22] flex flex-col items-center py-3 gap-2">
+    <div className="w-[72px] bg-[#1e1f22] flex flex-col items-center py-3 gap-2" style={{ fontFamily: 'gg sans, "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       {/* Home Button */}
       <div className="w-12 h-12 bg-[#5865f2] rounded-[24px] hover:rounded-[16px] transition-all duration-200 flex items-center justify-center cursor-pointer group">
         <svg width="28" height="20" viewBox="0 0 28 20" fill="white">

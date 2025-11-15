@@ -9,7 +9,7 @@ export const MembersSidebar = () => {
   ];
 
   return (
-    <div className="w-60 bg-[#2b2d31] overflow-y-auto">
+    <div className="w-60 bg-[#2b2d31] overflow-y-auto" style={{ fontFamily: 'gg sans, "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       <div className="p-4">
         {/* Members Count */}
         <div className="text-[#949ba4] text-xs font-semibold uppercase tracking-wide mb-2">
